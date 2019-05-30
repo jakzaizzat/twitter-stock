@@ -21,21 +21,21 @@ app.get("/", function(req, res) {
     return;
   }
 
-  client.get("search/tweets", { q: req.query.name }, function(
-    error,
-    tweets,
-    response
-  ) {
-    tweets.statuses.forEach(function(tweet) {
-      var tweet = {
-        profile: tweet.user.profile_image_url,
-        username: tweet.user.screen_name,
-        message: tweet.text
-      };
-      tweetsArr.push(tweet);
-    });
-    res.send(tweetsArr);
-  });
+  client.get(
+    "search/tweets",
+    { q: req.query.name, count: 5, result_type: "recent" },
+    function(error, tweets, response) {
+      tweets.statuses.forEach(function(tweet) {
+        var tweet = {
+          profile: tweet.user.profile_image_url,
+          username: tweet.user.screen_name,
+          message: tweet.text
+        };
+        tweetsArr.push(tweet);
+      });
+      res.send(tweetsArr);
+    }
+  );
 });
 
 app.listen(port, function() {
