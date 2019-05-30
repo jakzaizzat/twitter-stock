@@ -15,7 +15,13 @@ var client = new Twitter({
 
 app.get("/", function(req, res) {
   var tweetsArr = [];
-  client.get("search/tweets", { q: "$goog" }, function(
+
+  if (!req.query.name) {
+    res.send("No query");
+    return;
+  }
+
+  client.get("search/tweets", { q: req.query.name }, function(
     error,
     tweets,
     response
